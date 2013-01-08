@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://mikeys.github.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: Hashmal Blog
+subtitle: Programming, Music and things that make you say Hashmal!
+author: Miki Shiran
 simple_search: http://google.com/search
 description:
 
@@ -64,12 +64,12 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
-twitter_tweet_count: 4
+twitter_user: mikeyshiran
+twitter_tweet_count: 8
 twitter_show_replies: false
 twitter_follow_button: true
 twitter_show_follower_count: false
-twitter_tweet_button: true
+twitter_tweet_button: false
 
 # Google +1
 google_plus_one: false
@@ -89,7 +89,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
+disqus_short_name: hashmal
 disqus_show_comment_count: false
 
 # Google Analytics
