@@ -4,7 +4,7 @@
   <title><![CDATA[Hashmal Blog]]></title>
   <link href="http://mikeys.github.com/atom.xml" rel="self"/>
   <link href="http://mikeys.github.com/"/>
-  <updated>2013-07-15T23:38:05+03:00</updated>
+  <updated>2013-07-16T00:50:29+03:00</updated>
   <id>http://mikeys.github.com/</id>
   <author>
     <name><![CDATA[Miki Shiran]]></name>
@@ -20,7 +20,7 @@
     <id>http://mikeys.github.com/blog/2013/07/15/understanding-go-slices</id>
     <content type="html"><![CDATA[<p>During my initial steps learning the GO language,
 familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">golang official docs</a>
- as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8216;reference types&#8217; confuses a bit.</p>
+ as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8220;reference types&#8221; confuses a bit.</p>
 
 <p>Searching through the web, I came across
 <a href="https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ">this</a> thread which cleared it all up for me
