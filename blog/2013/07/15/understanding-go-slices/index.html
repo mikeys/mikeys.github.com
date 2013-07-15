@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hashmal Blog</title>
+  <title>Understanding GO Slices Behaviour - Hashmal Blog</title>
   <meta name="author" content="Miki Shiran">
 
   
@@ -19,7 +19,7 @@ familiar with pointers, I ran into some difficulties grasping why do &#8220;refe
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mikeys.github.com/">
+  <link rel="canonical" href="http://mikeys.github.com/blog/2013/07/15/understanding-go-slices/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -63,15 +63,12 @@ familiar with pointers, I ran into some difficulties grasping why do &#8220;refe
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/07/15/understanding-go-slices/">Understanding GO Slices Behaviour</a></h1>
+      <h1 class="entry-title">Understanding GO Slices Behaviour</h1>
     
     
       <p class="meta">
@@ -94,7 +91,7 @@ familiar with pointers, I ran into some difficulties grasping why do &#8220;refe
   </header>
 
 
-  <div class="entry-content"><p>During my initial steps learning the GO language,
+<div class="entry-content"><p>During my initial steps learning the GO language,
 familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">golang official docs</a>
  as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8216;reference types&#8217; confuses a bit.</p>
 
@@ -210,18 +207,61 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
 </span></code></pre></td></tr></table></div></figure>
 
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Miki Shiran</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2013-07-15T22:35:00+03:00" pubdate data-updated="true">Jul 15<span>th</span>, 2013</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/categories/go/'>Go</a>, <a class='category' href='/blog/categories/golang/'>golang</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
@@ -239,7 +279,7 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -259,6 +299,7 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -273,7 +314,10 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
       var disqus_shortname = 'hashmal';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mikeys.github.com/blog/2013/07/15/understanding-go-slices/';
+        var disqus_url = 'http://mikeys.github.com/blog/2013/07/15/understanding-go-slices/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
