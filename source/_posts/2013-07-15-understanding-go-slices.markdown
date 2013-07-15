@@ -8,7 +8,7 @@ categories: [Go, golang]
 
 During my initial steps learning the GO language,
 familiar with pointers, I ran into some difficulties grasping why do "reference types" (as the [golang official docs](http://golang.org/ref/spec#Making_slices_maps_and_channel)
- as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name 'reference types' confuses a bit.  
+ as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name "reference types" confuses a bit.  
 
 Searching through the web, I came across
 [this](https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ) thread which cleared it all up for me
