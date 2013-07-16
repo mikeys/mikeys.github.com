@@ -4,7 +4,7 @@
   <title><![CDATA[Hashmal Blog]]></title>
   <link href="http://mikeys.github.com/atom.xml" rel="self"/>
   <link href="http://mikeys.github.com/"/>
-  <updated>2013-07-16T09:48:08+03:00</updated>
+  <updated>2013-07-16T22:43:52+03:00</updated>
   <id>http://mikeys.github.com/</id>
   <author>
     <name><![CDATA[Miki Shiran]]></name>
@@ -19,13 +19,13 @@
     <updated>2013-07-15T22:35:00+03:00</updated>
     <id>http://mikeys.github.com/blog/2013/07/15/understanding-go-slices</id>
     <content type="html"><![CDATA[<p>During my initial steps learning the Go language,
-familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">golang official docs</a>
+familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">Go language spec</a>
  as well as other Go resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8220;reference types&#8221; confuses a bit.</p>
 
 <p>Searching through the web, I came across this <a href="https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ">&#8216;golang-nuts&#8217; forum thread</a> which cleared it all up for me
 and hopefully I&#8217;ll be able to summarize the good parts in this post.</p>
 
-<p>Also note, that although this post focuses on Slices- Maps and Channels
+<p>Also note, that although this post focuses on Slices, Maps and Channels
 work the same way.</p>
 
 <ul>
@@ -52,7 +52,7 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
 
 <p>Hopefully, the following example will better reflect the above:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>main.go</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -91,45 +91,73 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
 <span class='line-number'>37</span>
 <span class='line-number'>38</span>
 <span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
 </pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kn">package</span> <span class="nx">main</span>
 </span><span class='line'>
 </span><span class='line'><span class="kn">import</span> <span class="p">(</span>
 </span><span class='line'>  <span class="s">&quot;fmt&quot;</span>
 </span><span class='line'><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'><span class="kd">func</span> <span class="nx">doSomething</span><span class="p">(</span><span class="nx">slice</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">[]</span><span class="kt">int</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(pre-append) len: %d\n&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(pre-append) value: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">)</span>
+</span><span class='line'><span class="kd">func</span> <span class="nx">byValue</span><span class="p">(</span><span class="nx">slice</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;byValue(pre-append) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="nx">slice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">3</span>
 </span><span class='line'>  <span class="nx">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="mi">4</span>
-</span><span class='line'>
 </span><span class='line'>  <span class="nx">slice</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">slice</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(post-append) len: %d\n&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(post-append) value: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;byValue(post-append) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="k">return</span> <span class="nx">slice</span>
+</span><span class='line'><span class="kd">func</span> <span class="nx">byPointer</span><span class="p">(</span><span class="nx">slicePtr</span> <span class="o">*</span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">slice</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">slicePtr</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;byPointer(pre-append) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">slice</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">3</span>
+</span><span class='line'>  <span class="nx">slice</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="mi">4</span>
+</span><span class='line'>  <span class="nx">slice</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">slice</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;byPointer(post-append) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">*</span><span class="nx">slicePtr</span> <span class="p">=</span> <span class="nx">slice</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(pre-doSomething) len: %d\n&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">mySlice</span><span class="p">))</span>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(pre-doSomething) value: %d\n&quot;</span><span class="p">,</span> <span class="nx">mySlice</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">slice</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">// Reset slice</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;main(pre-byValue) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
+</span><span class='line'>  <span class="nx">byValue</span><span class="p">(</span><span class="nx">slice</span><span class="p">)</span> <span class="c1">// Slice&#39;s elements are changed, len and cap are still the same.</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;main(post-byValue) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="nx">mySlice</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-</span><span class='line'>  <span class="nx">doSomething</span><span class="p">(</span><span class="nx">mySlice</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(post-doSomething) len: %d\n&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">mySlice</span><span class="p">))</span>
-</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;(post-doSomething) value: %d\n&quot;</span><span class="p">,</span> <span class="nx">mySlice</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">slice</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">// Reset slice</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;main(pre-byPointer) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
+</span><span class='line'>  <span class="nx">byPointer</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">slice</span><span class="p">)</span> <span class="c1">// Slice&#39;s elements as well as len and cap are changed.</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;main(post-byPointer) value: %d, len: %d, cap: %d\n&quot;</span><span class="p">,</span> <span class="nx">slice</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">slice</span><span class="p">),</span> <span class="nb">cap</span><span class="p">(</span><span class="nx">slice</span><span class="p">))</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
 </span><span class='line'><span class="c1">// Output:</span>
-</span><span class='line'><span class="c1">//  (pre-append) len: 2</span>
-</span><span class='line'><span class="c1">//  (pre-append) value: [0 0]</span>
-</span><span class='line'><span class="c1">//  (post-append) len: 4</span>
-</span><span class='line'><span class="c1">//  (post-append) value: [3 4 4 5]</span>
-</span><span class='line'><span class="c1">//  (post-doSomething) len: 2</span>
-</span><span class='line'><span class="c1">//  (post-doSomething) value: [3 4]</span>
+</span><span class='line'><span class="c1">//   main(pre-byValue) value: [0 0], len: 2, cap: 4</span>
+</span><span class='line'><span class="c1">//   byValue(pre-append) value: [0 0], len: 2, cap: 4</span>
+</span><span class='line'><span class="c1">//   byValue(post-append) value: [3 4 4 5], len: 4, cap: 4</span>
+</span><span class='line'><span class="c1">//   main(post-byValue) value: [3 4], len: 2, cap: 4</span>
+</span><span class='line'><span class="c1">//</span>
+</span><span class='line'><span class="c1">//   main(pre-byPointer) value: [0 0], len: 2, cap: 4</span>
+</span><span class='line'><span class="c1">//   byPointer(pre-append) value: [0 0], len: 2, cap: 4</span>
+</span><span class='line'><span class="c1">//   byPointer(post-append) value: [3 4 4 5], len: 4, cap: 4</span>
+</span><span class='line'><span class="c1">//   main(post-byPointer) value: [3 4 4 5], len: 4, cap: 4</span>
 </span></code></pre></td></tr></table></div></figure>
 
 ]]></content>
