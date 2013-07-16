@@ -115,7 +115,7 @@ work the same way.</p>
 
 <p>In Go, arguments are always passed to functions by value (you can argue with that by saying that you can always pass a pointer to the real instance, but even then:
 you&#8217;re actually passing a <strong>copy</strong> of the original pointer).<br/>
-Slices are no different: when passing a slice as an argument, you&#8217;re actually passing a copy of the struct I described above, to the function.<br/>
+Slices are no different: when passing a slice as an argument (by value), you&#8217;re actually passing a copy of the struct I described above, to the function.<br/>
 The pointer in that &#8216;struct copy&#8217; refers to the same array as the original struct, meaning that when you&#8217;re altering the slice&#8217;s elements, you&#8217;re actually altering the pointed array&#8217;s elements and as a result,
 the changes are reflected in the original slice. This part is pretty straightforward.</p>
 
