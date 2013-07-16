@@ -23,7 +23,7 @@ work the same way.
 
 In Go, arguments are always passed to functions by value (you can argue with that by saying that you can always pass a pointer to the real instance, but even then:
 you're actually passing a __copy__ of the original pointer).  
-Slices are no different: when passing a slice as an argument, you're actually passing a copy of the struct I described above, to the function.  
+Slices are no different: when passing a slice as an argument (by value), you're actually passing a copy of the struct I described above, to the function.  
 The pointer in that 'struct copy' refers to the same array as the original struct, meaning that when you're altering the slice's elements, you're actually altering the pointed array's elements and as a result,
 the changes are reflected in the original slice. This part is pretty straightforward.
 
