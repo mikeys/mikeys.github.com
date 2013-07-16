@@ -4,7 +4,7 @@
   <title><![CDATA[Hashmal Blog]]></title>
   <link href="http://mikeys.github.com/atom.xml" rel="self"/>
   <link href="http://mikeys.github.com/"/>
-  <updated>2013-07-16T00:50:29+03:00</updated>
+  <updated>2013-07-16T09:36:38+03:00</updated>
   <id>http://mikeys.github.com/</id>
   <author>
     <name><![CDATA[Miki Shiran]]></name>
@@ -14,13 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Understanding GO Slices Behaviour]]></title>
+    <title type="html"><![CDATA[Understanding Go Slices Behaviour]]></title>
     <link href="http://mikeys.github.com/blog/2013/07/15/understanding-go-slices/"/>
     <updated>2013-07-15T22:35:00+03:00</updated>
     <id>http://mikeys.github.com/blog/2013/07/15/understanding-go-slices</id>
-    <content type="html"><![CDATA[<p>During my initial steps learning the GO language,
+    <content type="html"><![CDATA[<p>During my initial steps learning the Go language,
 familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">golang official docs</a>
- as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8220;reference types&#8221; confuses a bit.</p>
+ as well as other Go resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8220;reference types&#8221; confuses a bit.</p>
 
 <p>Searching through the web, I came across
 <a href="https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ">this</a> thread which cleared it all up for me
@@ -44,7 +44,7 @@ work the same way.</p>
 <p>In Go, arguments are always passed to functions by value (you can argue with that by saying that you can always pass a pointer to the real instance, but even then:
 you&#8217;re actually passing a <strong>copy</strong> of the original pointer).<br/>
 Slices are no different: when passing a slice as an argument, you&#8217;re actually passing a copy of the struct I described above, to the function.<br/>
-The pointer in that &#8216;struct copy&#8217; refers to the same array as the original struct, meaning that when you&#8217;re changing the slice&#8217;s elements, you&#8217;re actually changing the pointed array&#8217;s elements.
+The pointer in that &#8216;struct copy&#8217; refers to the same array as the original struct, meaning that when you&#8217;re altering the slice&#8217;s elements, you&#8217;re actually altering the pointed array&#8217;s elements and as a result,
 the changes are reflected in the original slice. This part is pretty straightforward.</p>
 
 <p>Now for the more interesting part:<br/>
