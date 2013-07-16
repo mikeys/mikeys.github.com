@@ -7,14 +7,13 @@ categories: [Go, golang]
 ---
 
 During my initial steps learning the Go language,
-familiar with pointers, I ran into some difficulties grasping why do "reference types" (as the [golang official docs](http://golang.org/ref/spec#Making_slices_maps_and_channel)
+familiar with pointers, I ran into some difficulties grasping why do "reference types" (as the [Go language spec](http://golang.org/ref/spec#Making_slices_maps_and_channel)
  as well as other Go resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name "reference types" confuses a bit.  
 
-Searching through the web, I came across
-[this](https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ) thread which cleared it all up for me
+Searching through the web, I came across this ['golang-nuts' forum thread](https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ) which cleared it all up for me
 and hopefully I'll be able to summarize the good parts in this post.
 
-Also note, that although this post focuses on Slices- Maps and Channels
+Also note, that although this post focuses on Slices, Maps and Channels
 work the same way.
 
 - You may think of slices as a struct with the following 3 fields:  
@@ -34,44 +33,58 @@ the reason is obvious: all you're doing is altering a __copy__.
 
 Hopefully, the following example will better reflect the above:
 
-``` go
+``` go main.go
 package main
 
 import (
-	"fmt"
+  "fmt"
 )
 
-func doSomething(slice []int) []int {
-	fmt.Printf("(pre-append) len: %d\n", len(slice))
-	fmt.Printf("(pre-append) value: %d\n", slice)
+func byValue(slice []int) {
+  fmt.Printf("byValue(pre-append) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
 
-	slice[0] = 3
-	slice[1] = 4
+  slice[0] = 3
+  slice[1] = 4
+  slice = append(slice, 4, 5)
 
-	slice = append(slice, 4, 5)
+  fmt.Printf("byValue(post-append) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
+}
 
-	fmt.Printf("(post-append) len: %d\n", len(slice))
-	fmt.Printf("(post-append) value: %d\n", slice)
+func byPointer(slicePtr *[]int) {
+  slice := *slicePtr
+  fmt.Printf("byPointer(pre-append) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
 
-	return slice
+  slice[0] = 3
+  slice[1] = 4
+  slice = append(slice, 4, 5)
+
+  fmt.Printf("byPointer(post-append) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
+
+  *slicePtr = slice
 }
 
 func main() {
-	fmt.Printf("(pre-doSomething) len: %d\n", len(mySlice))
-	fmt.Printf("(pre-doSomething) value: %d\n", mySlice)
+  slice := make([]int, 2, 4) // Reset slice
+  fmt.Printf("main(pre-byValue) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
+  byValue(slice) // Slice's elements are changed, len and cap are still the same.
+  fmt.Printf("main(post-byValue) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
 
-	mySlice := make([]int, 2, 4)
-	doSomething(mySlice)
+  fmt.Println()
 
-	fmt.Printf("(post-doSomething) len: %d\n", len(mySlice))
-	fmt.Printf("(post-doSomething) value: %d\n", mySlice)
+  slice = make([]int, 2, 4) // Reset slice
+  fmt.Printf("main(pre-byPointer) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
+  byPointer(&slice) // Slice's elements as well as len and cap are changed.
+  fmt.Printf("main(post-byPointer) value: %d, len: %d, cap: %d\n", slice, len(slice), cap(slice))
 }
 
 // Output:
-//  (pre-append) len: 2
-//  (pre-append) value: [0 0]
-//  (post-append) len: 4
-//  (post-append) value: [3 4 4 5]
-//  (post-doSomething) len: 2
-//  (post-doSomething) value: [3 4]
+//   main(pre-byValue) value: [0 0], len: 2, cap: 4
+//   byValue(pre-append) value: [0 0], len: 2, cap: 4
+//   byValue(post-append) value: [3 4 4 5], len: 4, cap: 4
+//   main(post-byValue) value: [3 4], len: 2, cap: 4
+//
+//   main(pre-byPointer) value: [0 0], len: 2, cap: 4
+//   byPointer(pre-append) value: [0 0], len: 2, cap: 4
+//   byPointer(post-append) value: [3 4 4 5], len: 4, cap: 4
+//   main(post-byPointer) value: [3 4 4 5], len: 4, cap: 4
 ```
