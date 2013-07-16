@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Understanding GO Slices Behaviour"
+title: "Understanding Go Slices Behaviour"
 date: 2013-07-15 22:35
 comments: true
 categories: [Go, golang]
 ---
 
-During my initial steps learning the GO language,
+During my initial steps learning the Go language,
 familiar with pointers, I ran into some difficulties grasping why do "reference types" (as the [golang official docs](http://golang.org/ref/spec#Making_slices_maps_and_channel)
- as well as other golang resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name "reference types" confuses a bit.  
+ as well as other Go resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name "reference types" confuses a bit.  
 
 Searching through the web, I came across
 [this](https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ) thread which cleared it all up for me
@@ -25,7 +25,7 @@ work the same way.
 In Go, arguments are always passed to functions by value (you can argue with that by saying that you can always pass a pointer to the real instance, but even then:
 you're actually passing a __copy__ of the original pointer).  
 Slices are no different: when passing a slice as an argument, you're actually passing a copy of the struct I described above, to the function.  
-The pointer in that 'struct copy' refers to the same array as the original struct, meaning that when you're changing the slice's elements, you're actually changing the pointed array's elements.
+The pointer in that 'struct copy' refers to the same array as the original struct, meaning that when you're altering the slice's elements, you're actually altering the pointed array's elements and as a result,
 the changes are reflected in the original slice. This part is pretty straightforward.
 
 Now for the more interesting part:  
