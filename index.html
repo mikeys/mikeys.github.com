@@ -10,7 +10,7 @@
 
   
   <meta name="description" content="During my initial steps learning the Go language,
-familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221 &hellip;">
+familiar with pointers, I ran into some difficulties grasping why do &ldquo;reference types&rdquo &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,13 +19,14 @@ familiar with pointers, I ran into some difficulties grasping why do &#8220;refe
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mikeys.github.com/">
+  <link rel="canonical" href="http://mikeys.github.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Hashmal Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -95,11 +96,11 @@ familiar with pointers, I ran into some difficulties grasping why do &#8220;refe
 
 
   <div class="entry-content"><p>During my initial steps learning the Go language,
-familiar with pointers, I ran into some difficulties grasping why do &#8220;reference types&#8221; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">Go language spec</a>
- as well as other Go resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &#8220;reference types&#8221; confuses a bit.</p>
+familiar with pointers, I ran into some difficulties grasping why do &ldquo;reference types&rdquo; (as the <a href="http://golang.org/ref/spec#Making_slices_maps_and_channel">Go language spec</a>
+ as well as other Go resources, actually call them) behave the way they do, and how do they really look like under the hood, as the name &ldquo;reference types&rdquo; confuses a bit.</p>
 
-<p>Searching through the web, I came across this <a href="https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ">&#8216;golang-nuts&#8217; forum thread</a> which cleared it all up for me
-and hopefully I&#8217;ll be able to summarize the good parts in this post.</p>
+<p>Searching through the web, I came across this <a href="https://groups.google.com/forum/#!msg/golang-nuts/xQUsmdo6oSs/RJ8SF4NsbowJ">&lsquo;golang-nuts&rsquo; forum thread</a> which cleared it all up for me
+and hopefully I&rsquo;ll be able to summarize the good parts in this post.</p>
 
 <p>Also note, that although this post focuses on Slices, Maps and Channels
 work the same way.</p>
@@ -109,22 +110,22 @@ work the same way.</p>
 
 <ul>
 <li>array (holds a pointer to an array)</li>
-<li>len (holds the pointed array&#8217;s length)</li>
-<li>cap (holds the pointed array&#8217;s capacity)</li>
+<li>len (holds the pointed array&rsquo;s length)</li>
+<li>cap (holds the pointed array&rsquo;s capacity)</li>
 </ul>
 </li>
 </ul>
 
 
 <p>In Go, arguments are always passed to functions by value (you can argue with that by saying that you can always pass a pointer to the real instance, but even then:
-you&#8217;re actually passing a <strong>copy</strong> of the original pointer).<br/>
-Slices are no different: when passing a slice as an argument (by value), you&#8217;re actually passing a copy of the struct I described above, to the function.<br/>
-The pointer in that &#8216;struct copy&#8217; refers to the same array as the original struct, meaning that when you&#8217;re altering the slice&#8217;s elements, you&#8217;re actually altering the pointed array&#8217;s elements and as a result,
+you&rsquo;re actually passing a <strong>copy</strong> of the original pointer).<br/>
+Slices are no different: when passing a slice as an argument (by value), you&rsquo;re actually passing a copy of the struct I described above, to the function.<br/>
+The pointer in that &lsquo;struct copy&rsquo; refers to the same array as the original struct, meaning that when you&rsquo;re altering the slice&rsquo;s elements, you&rsquo;re actually altering the pointed array&rsquo;s elements and as a result,
 the changes are reflected in the original slice. This part is pretty straightforward.</p>
 
 <p>Now for the more interesting part:<br/>
-When you perform operations that alter the struct&#8217;s fields (as opposed to altering the slice&#8217;s elements), like expanding the slice using <code>append(slice)</code> (resulting a greater <code>len</code> and sometimes a greater <code>capacity</code>) they will <strong>not</strong> be reflected in the original struct,
-the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong>.</p>
+When you perform operations that alter the struct&rsquo;s fields (as opposed to altering the slice&rsquo;s elements), like expanding the slice using <code>append(slice)</code> (resulting a greater <code>len</code> and sometimes a greater <code>capacity</code>) they will <strong>not</strong> be reflected in the original struct,
+the reason is obvious: all you&rsquo;re doing is altering a <strong>copy</strong>.</p>
 
 <p>Hopefully, the following example will better reflect the above:</p>
 
@@ -263,23 +264,6 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
 </section>
 
 
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("mikeyshiran", 8, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/mikeyshiran" class="twitter-follow-button" data-show-count="false">Follow @mikeyshiran</a>
-  
-</section>
-
-
 
 
 
@@ -320,7 +304,7 @@ the reason is obvious: all you&#8217;re doing is altering a <strong>copy</strong
       var twitterWidgets = document.createElement('script');
       twitterWidgets.type = 'text/javascript';
       twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
       document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
     })();
   </script>
