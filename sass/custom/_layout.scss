@@ -19,3 +19,23 @@
 //$sidebar-pad-medium: 15px;
 //$sidebar-pad-wide: 20px;
 //$sidebar-width-wide: 300px;
+
+.head-container {
+  padding-left: 90px;
+  background: {
+    image: url('/images/hashmal_500x500.png');
+    size: 90px 90px;
+    repeat: no-repeat;
+    position: left center;
+  }
+  min-height: 90px;
+  float: none;
+  position: relative;
+  white-space: nowrap
+}
+
+.head-text {
+  position: absolute;
+  top: 50%;
+  margin-top: -2.0em;
+}
